@@ -1,16 +1,64 @@
-# React + Vite
+# PDF to Image Converter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一款功能强大的 PDF 转图片在线工具，支持高清渲染、自定义输出格式，所有处理均在浏览器本地完成。
 
-Currently, two official plugins are available:
+## ✨ 功能特性
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **本地处理** - 所有转换均在浏览器端完成，文件不会上传至服务器，保护您的隐私
+- **多格式输出** - 支持 PNG（无损）和 JPEG（可调节压缩质量）两种格式
+- **高清渲染** - 最高支持 4x 渲染倍率（288 DPI），满足打印级需求
+- **宽度限制** - 可设置最大输出宽度，方便控制文件大小
+- **批量下载** - 多页 PDF 自动打包为 ZIP 下载
+- **实时预览** - 转换完成后即时预览每一页的效果
+- **拖拽上传** - 支持拖拽文件到页面直接上传
 
-## React Compiler
+## 🛠️ 技术栈
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **React 19** - 现代化前端框架
+- **Vite** - 快速的开发构建工具
+- **Tailwind CSS 4** - 原子化 CSS 框架
+- **PDF.js** - Mozilla 出品的 PDF 渲染引擎
+- **JSZip** - 浏览器端 ZIP 打包
+- **FileSaver.js** - 文件下载解决方案
+- **Lucide React** - 精美图标库
 
-## Expanding the ESLint configuration
+## 🚀 快速开始
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 启动开发服务器
+
+```bash
+npm run dev
+```
+
+### 构建生产版本
+
+```bash
+npm run build
+```
+
+### 预览生产构建
+
+```bash
+npm run preview
+```
+
+## 📖 使用说明
+
+1. 打开应用后，拖拽 PDF 文件到上传区域，或点击"选择文件"按钮
+2. 在左侧设置面板中配置输出参数：
+   - **图片格式**：PNG（无损质量）或 JPEG（更小文件体积）
+   - **压缩质量**：仅 JPEG 格式可用，范围 10% - 100%
+   - **渲染倍率**：1x ~ 4x，倍率越高图片越清晰
+   - **宽度限制**：可选，限制输出图片的最大宽度
+3. 点击"开始转换"按钮
+4. 转换完成后可预览每一页，点击"下载全部"获取所有图片
+
+## 📝 开源协议
+
+MIT License
