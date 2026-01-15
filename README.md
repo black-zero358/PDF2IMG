@@ -61,4 +61,4 @@ npm run preview
 
 ## 📝 开源协议
 
-MIT License
+AGPL-3.0 license
