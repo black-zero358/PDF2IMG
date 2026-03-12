@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Upload, Image as ImageIcon, Download, Settings, FileText, CheckCircle, AlertCircle, Loader, RefreshCw, Trash2 } from 'lucide-react';
+import { Upload, Image as ImageIcon, Download, Settings, FileText, CheckCircle, AlertCircle, Loader, RefreshCw, Trash2, Layers } from 'lucide-react';
 
 // 动态加载外部脚本的 Hook
 const useScript = (src) => {
@@ -206,6 +206,44 @@ export default function App() {
     }
   };
 
+  // 拼接长图下载
+  const downloadStitched = async () => {
+    if (convertedImages.length === 0) return;
+
+    const totalWidth = Math.max(...convertedImages.map(img => img.width));
+    const totalHeight = convertedImages.reduce((sum, img) => sum + img.height, 0);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = totalWidth;
+    canvas.height = totalHeight;
+    const ctx = canvas.getContext('2d');
+
+    let yOffset = 0;
+    for (const img of convertedImages) {
+      await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          ctx.drawImage(image, 0, yOffset, img.width, img.height);
+          yOffset += img.height;
+          resolve();
+        };
+        image.onerror = () => reject(new Error(`Failed to load image for page ${img.page}`));
+        image.src = img.dataUrl;
+      });
+    }
+
+    const mimeType = settings.format === 'png' ? 'image/png' : 'image/jpeg';
+    canvas.toBlob(
+      (blob) => {
+        if (blob) {
+          window.saveAs(blob, `${file.name.replace('.pdf', '')}-stitched.${settings.format}`);
+        }
+      },
+      mimeType,
+      settings.quality
+    );
+  };
+
   if (!isReady) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center flex-col gap-4">
@@ -410,6 +448,12 @@ export default function App() {
                          <Button variant="secondary" onClick={() => { setStatus('idle'); setConvertedImages([]); }}>
                            重置
                          </Button>
+                         {convertedImages.length > 1 && (
+                           <Button variant="secondary" onClick={downloadStitched}>
+                             拼接长图
+                             <Layers size={18} />
+                           </Button>
+                         )}
                          <Button onClick={downloadAll}>
                            下载全部 ({convertedImages.length})
                            <Download size={18} />
